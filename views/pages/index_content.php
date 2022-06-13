@@ -100,70 +100,75 @@ if (isset($_GET['page'])) {
         <div class="row">
             <div class="col-lg-12">
                 <ul class="filter__controls">
-                    <li class="active" data-filter=".hot-sales">Best Reviews</li>
-                    <li data-filter=".new-arrivals">New Arrivals</li>
+                    <li class="active" data-filter=".new-arrivals">New Arrivals</li>
+                    <li  data-filter=".hot-sales">Best Reviews</li>
                 </ul>
             </div>
         </div>
         <div class="row product__filter">
             <?php
             $bestReviews = bestReviews();
-            foreach ($bestReviews as $best) :
-            ?>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="assets/img/product/<?= $best->nazivSlike ?>">
-                            <ul class="product__hover">
-                                <li>
-                                    <a href="#"><img src="assets/img/icon/heart.png" alt=""><span>Wishlist</span></a>
-                                </li>
-                                <li>
-                                    <a href="index.php?page=details&prod=<?= $best->idProdukt ?>"><img src="assets/img/icon/compare.png" alt=""> <span>Details</span></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><?= $best->imeProdukta ?></h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <?php
-                            $result = getRating($best->idProdukt);
-                            $average = getAverage($result);
+            foreach ($bestReviews
 
-                            echo '<div class="rating">';
-                            for ($i = 0; $i < $average; $i++) {
-                                echo '<i class="fa fa-star"></i>&nbsp';
-                            }
-                            for ($j = 0; $j < 5 - $average; $j++) {
-                                echo '<i class="fa fa-star-o"></i>&nbsp';
-                            }
-                            echo '<span> - ' . count($result) . ' Reviews</span>';
+            as $best) :
+            ?>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales" style="display: none;">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="assets/img/product/<?= $best->nazivSlike ?>">
+                        <ul class="product__hover">
+                            <li>
+                                <a href="#"><img src="assets/img/icon/heart.png" alt=""><span>Wishlist</span></a>
+                            </li>
+                            <li>
+                                <a href="index.php?page=details&prod=<?= $best->idProdukt ?>"><img
+                                            src="assets/img/icon/compare.png" alt=""> <span>Details</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><?= $best->imeProdukta ?></h6>
+                        <a href="#" class="add-cart">+ Add To Cart</a>
+                        <?php
+                        $result = getRating($best->idProdukt);
+                        $average = getAverage($result);
+
+                        echo '<div class="rating">';
+                        for ($i = 0; $i < $average; $i++) {
+                            echo '<i class="fa fa-star"></i>&nbsp';
+                        }
+                        for ($j = 0; $j < 5 - $average; $j++) {
+                            echo '<i class="fa fa-star-o"></i>&nbsp';
+                        }
+                        echo '<span> - ' . count($result) . ' Reviews</span>';
+                        ?>
+                    </div>
+                    <h5><?= $best->nova ?> RSD</h5>
+                    <div class="product__color__select">
+                        <?php
+                        $colors = getColors($best->idProdukt);
+                        foreach ($colors as $color) :
                             ?>
-                        </div>
-                        <h5><?= $best->nova ?> RSD</h5>
-                        <div class="product__color__select">
-                            <?php
-                            $colors = getColors($best->idProdukt);
-                            foreach ($colors as $color) :
-                            ?>
-                                <label for="pc-4" style="background-color: <?= $color->rgb ?>">
-                                    <input type="radio" id="pc-4" disabled>
-                                </label>
-                            <?php
-                            endforeach;
-                            ?>
-                        </div>
+                            <label for="pc-4" style="background-color: <?= $color->rgb ?>">
+                                <input type="radio" id="pc-4" disabled>
+                            </label>
+                        <?php
+                        endforeach;
+                        ?>
                     </div>
                 </div>
+            </div>
         </div>
-    <?php
-            endforeach;
-    ?>
-    <?php
-    $newArrivals = newArrivals();
-    $newArrivals = array_slice($newArrivals, 0, 4);
-    foreach ($newArrivals as $new) :
-    ?>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals" style="display: none;">
+        <?php
+        endforeach;
+        ?>
+        <?php
+        $newArrivals = newArrivals();
+        $newArrivals = array_slice($newArrivals, 0, 4);
+        foreach ($newArrivals
+
+        as $new) :
+        ?>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
             <div class="product__item">
                 <div class="product__item__pic set-bg" data-setbg="assets/img/product/<?= $new->nazivSlike ?>">
                     <ul class="product__hover">
@@ -171,7 +176,8 @@ if (isset($_GET['page'])) {
                             <a href="#"><img src="assets/img/icon/heart.png" alt=""><span>Wishlist</span></a>
                         </li>
                         <li>
-                            <a href="index.php?page=details&prod=<?= $new->idProdukt ?>"><img src="assets/img/icon/compare.png" alt=""> <span>Details</span></a>
+                            <a href="index.php?page=details&prod=<?= $new->idProdukt ?>"><img
+                                        src="assets/img/icon/compare.png" alt=""> <span>Details</span></a>
                         </li>
                     </ul>
                 </div>
@@ -197,7 +203,7 @@ if (isset($_GET['page'])) {
                     <?php
                     $colors = getColors($new->idProdukt);
                     foreach ($colors as $color) :
-                    ?>
+                        ?>
                         <label for="pc-4" style="background-color: <?= $color->rgb ?>">
                             <input type="radio" id="pc-4" disabled>
                         </label>
@@ -208,11 +214,11 @@ if (isset($_GET['page'])) {
             </div>
         </div>
     </div>
-<?php
+    <?php
     endforeach;
-?>
-</div>
-</div>
+    ?>
+    </div>
+    </div>
 </section>
 <!-- Product Section End -->
 
@@ -222,7 +228,7 @@ if (isset($_GET['page'])) {
         <div class="row">
             <div class="col-lg-3">
                 <div class="categories__text">
-                    <h2>Shoe Collection<br /> <span>Clothings Hot</span> <br /> Accessories</h2>
+                    <h2>Shoe Collection<br/> <span>Clothings Hot</span> <br/> Accessories</h2>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -281,7 +287,8 @@ if (isset($_GET['page'])) {
             <div class="col-lg-4">
                 <div class="instagram__text">
                     <h2>Instagram</h2>
-                    <p>Visit our instagram page where you can find various clothing combinations that include our products and models</p>
+                    <p>Visit our instagram page where you can find various clothing combinations that include our
+                        products and models</p>
                     <h3>#Male_Fashion</h3>
                 </div>
             </div>

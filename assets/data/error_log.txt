@@ -1,27 +1,8 @@
 Choose Error at Category | Brand | Tag | Color | Size | 			Please select a file to upload.	127.0.0.1	29-01-2022 01:02:40	
 		File Type Error: nav-links.json | products.json	Upload failed! 	127.0.0.1	29-01-2022 01:04:07	
-			Files are uploaded successfuly.	127.0.0.1	29-01-2022 01:08:32	
-			Files are uploaded successfuly.	127.0.0.1	29-01-2022 01:09:43	
-			Files are uploaded successfuly.	127.0.0.1	29-01-2022 01:10:08	
-			Files are uploaded successfuly.	127.0.0.1	29-01-2022 01:12:47	
 Choose Error at Category | Brand | Tag | Color | Size | 			Upload failed! 	127.0.0.1	29-01-2022 01:13:35	
-Choose Error at Category | Brand | Tag | Color | Size | 		File Type Error: contact.js | gijgo.min.js	Upload failed! 	127.0.0.1	29-01-2022 01:14:04	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 01:14:57	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 01:40:03	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 01:45:35	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 01:48:24	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 01:51:13	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 02:24:46	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 02:37:24	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 02:40:44	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 02:43:12	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 02:45:51	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 03:07:31	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 03:09:38	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 03:20:47	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 03:22:13	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 03:25:45	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 03:27:29	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 03:29:34	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 03:31:47	
-			Files are uploaded Successfuly.	147.91.36.2	16-02-2022 03:32:12	
+Choose Error at Category | Brand | Tag | Color | Size | 		File Type Error: contact.js | gijgo.min.js	Upload failed! 	127.0.0.1	29-01-2022 01:14:04
+Product successfully updated				127.0.0.1	19-05-2022 21:58:20
+Product successfully updated				127.0.0.1	19-05-2022 22:04:56
+Product successfully updated				127.0.0.1	19-05-2022 22:05:03
+			Files are uploaded successfully.	147.91.36.2	16-02-2022 03:32:12

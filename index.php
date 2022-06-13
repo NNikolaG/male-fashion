@@ -3,63 +3,63 @@ session_start();
 include 'config/connection.php';
 include 'models/functions.php';
 
-include 'pages/fixed/head.php';
-include 'pages/fixed/header.php';
+include 'views/fixed/head.php';
+include 'views/fixed/header.php';
 
 if (isset($_GET['page'])) {
     switch ($_GET['page']) {
         case 'home':
-            include 'pages/views/index_content.php';
+            include 'views/pages/index_content.php';
             break;
         case 'about':
-            include 'pages/views/about.php';
+            include 'views/pages/about.php';
             break;
         case 'shop':
-            include 'pages/views/shop.php';
+            include 'views/pages/shop.php';
             break;
         case 'cart':
-            include 'pages/views/cart.php';
+            include 'views/pages/cart.php';
             break;
         case 'contact':
-            include 'pages/views/contact.php';
-            break;
-        case 'blog':
-            include 'pages/views/blog.php';
+            include 'views/pages/contact.php';
             break;
         case 'login':
-            include 'pages/views/login.php';
+            include 'views/pages/login.php';
             break;
         case 'register':
-            include 'pages/views/register.php';
+            include 'views/pages/register.php';
             break;
         case 'faq':
-            include 'pages/views/FAQ.php';
+            include 'views/pages/FAQ.php';
             break;
         case 'wishlist':
-            include 'pages/views/wishlist.php';
+            include 'views/pages/wishlist.php';
             break;
         case 'details':
-            include 'pages/views/details.php';
+            include 'views/pages/details.php';
             break;
         case 'checkout':
-            include 'pages/views/checkout.php';
+            include 'views/pages/checkout.php';
             break;
         case 'panel':
-            include 'pages/views/adminPanel.php';
+            include 'views/pages/adminPanel.php';
             break;
         case 'response':
-            include 'pages/views/response.php';
+            include 'views/pages/response.php';
             break;
         case 'user':
-            include 'pages/views/userPanel.php';
+            include 'views/pages/userPanel.php';
+            break;
+        case 'author':
+            include 'views/pages/author.php';
             break;
     }
 } else {
-    include 'pages/views/index_content.php';
+    include 'views/pages/index_content.php';
 }
 
-include 'pages/fixed/footer.php';
-include 'pages/fixed/scripts.php';
+include 'views/fixed/footer.php';
+include 'views/fixed/scripts.php';
 ?>
 
 </body>

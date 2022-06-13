@@ -60,7 +60,6 @@ function updateErrorLog($message)
     }
 }
 
-
 function fetchAllProducts($group, $id)
 {
     global $conn;
@@ -68,11 +67,7 @@ function fetchAllProducts($group, $id)
     if ($id == false) {
         $upit = "SELECT * FROM produkti AS p INNER JOIN kategorije AS k ON p.kategorija = k.idKategorija INNER JOIN brendovi AS b ON p.brend = b.idBrend INNER JOIN cena c ON p.cena = c.idCena INNER JOIN kolekcijaslika ks ON p.idProdukt = ks.idProdukt INNER JOIN slika s ON ks.idKolekcijaSlika = s.idKolekcijaSlika INNER JOIN produkttag pt ON p.idProdukt = pt.idProdukt INNER JOIN tagovi t ON t.idTag = pt.idTag INNER JOIN produktboja pb ON p.idProdukt = pb.idProdukt INNER JOIN boje bo ON bo.idBoja = pb.idBoja INNER JOIN produktivelicine pv ON p.idProdukt = pv.idProdukt INNER JOIN velicine v ON pv.idVelicina = v.idVelicina GROUP BY $group";
 
-        $prepare = $conn->prepare($upit);
-        $prepare->bindParam(':group', $group);
-        $prepare->execute();
-
-        $result = $prepare->fetchAll();
+        $result = $conn->query($upit)->fetchAll();
         return $result;
     } else {
         $upit = "SELECT *, ks.idBoja AS bojaX FROM produkti AS p INNER JOIN kategorije AS k ON p.kategorija = k.idKategorija INNER JOIN brendovi AS b ON p.brend = b.idBrend INNER JOIN cena c ON p.cena = c.idCena INNER JOIN kolekcijaslika ks ON p.idProdukt = ks.idProdukt INNER JOIN slika s ON ks.idKolekcijaSlika = s.idKolekcijaSlika INNER JOIN produkttag pt ON p.idProdukt = pt.idProdukt INNER JOIN tagovi t ON t.idTag = pt.idTag INNER JOIN produktboja pb ON p.idProdukt = pb.idProdukt INNER JOIN boje bo ON bo.idBoja = pb.idBoja INNER JOIN produktivelicine pv ON p.idProdukt = pv.idProdukt INNER JOIN velicine v ON pv.idVelicina = v.idVelicina WHERE p.idProdukt = :id GROUP BY $group";
@@ -144,21 +139,6 @@ function fetchSameProductTags($id)
         return $newResult;
     }
 }
-
-// function loging($email, $password)
-// {
-//     global $conn;
-
-//     $upit = "SELECT * FROM korisnici WHERE email = :email AND password= :password";
-
-//     $prepare = $conn->prepare($upit);
-//     $prepare->bindParam(':email', $email);
-//     $prepare->bindParam(':password', $password);
-//     $prepare->execute();
-
-//     $result = $prepare->fetch();
-//     return $result;
-// }
 
 function getUser($column, $value)
 {
@@ -253,18 +233,19 @@ function sendReview($ocena, $komentar, $korisnikId, $produktId)
     return $result;
 }
 
-function ordering($name, $email, $address, $zip, $ccv, $cardOwner, $cardNum, $country, $payment)
+function ordering($name, $email, $address, $cost, $zip, $ccv, $cardOwner, $cardNum, $country, $payment)
 {
 
     global $conn;
 
-    $upit = "INSERT INTO `porudzbine` (`porudzbine_id`, `imePrezime`, `email`, `adresa`, `zip`, `ccv`, `vlasnikKartice`, `brojKartice`, `zemlja`, `nacinPlacanja`, `datum`) VALUES (NULL, :ime, :email, :adresa, :zip, :ccv, :vlasnik, :broj, :drzava, :placanje, current_timestamp())";
+    $upit = "INSERT INTO `porudzbine` (`porudzbine_id`, `imePrezime`, `email`, `adresa`,`cost`, `zip`, `ccv`, `vlasnikKartice`, `brojKartice`, `zemlja`, `nacinPlacanja`, `datum`) VALUES (NULL, :ime, :email, :adresa, :cost, :zip, :ccv, :vlasnik, :broj, :drzava, :placanje, current_timestamp())";
 
     $prepare = $conn->prepare($upit);
 
     $prepare->bindParam(':ime', $name);
     $prepare->bindParam(':email', $email);
     $prepare->bindParam(':adresa', $address);
+    $prepare->bindParam(':cost', $cost);
     $prepare->bindParam(':zip', $zip);
     $prepare->bindParam(':ccv', $ccv);
     $prepare->bindParam(':vlasnik', $cardOwner);
@@ -349,6 +330,7 @@ function getRating($id)
 
     return $result;
 }
+
 function getAverage($result)
 {
     $sum = 0;
@@ -360,9 +342,10 @@ function getAverage($result)
     }
     return round($average);
 }
+
 function getSameProduct($id, $color, $size)
 {
-    global  $conn;
+    global $conn;
 
     $upit = 'SELECT * FROM produkti AS p INNER JOIN cena c ON p.cena = c.idCena INNER JOIN kolekcijaslika ks ON p.idProdukt = ks.idProdukt INNER JOIN slika s ON ks.idKolekcijaSlika = s.idKolekcijaSlika INNER JOIN produktboja pb ON p.idProdukt = pb.idProdukt INNER JOIN boje bo ON bo.idBoja = pb.idBoja INNER JOIN produktivelicine pv ON p.idProdukt = pv.idProdukt INNER JOIN velicine v ON pv.idVelicina = v.idVelicina WHERE p.idProdukt = :id AND bo.idBoja = :color AND v.velicina = :size GROUP  BY p.idProdukt';
 
@@ -376,17 +359,14 @@ function getSameProduct($id, $color, $size)
     return $result;
 }
 
+
 function bestReviews()
 {
     global $conn;
 
-    $upit = "SELECT * FROM produkti AS p INNER JOIN kategorije AS k ON p.kategorija = k.idKategorija INNER JOIN brendovi AS b ON p.brend = b.idBrend INNER JOIN cena c ON p.cena = c.idCena INNER JOIN kolekcijaslika ks ON p.idProdukt = ks.idProdukt INNER JOIN slika s ON ks.idKolekcijaSlika = s.idKolekcijaSlika INNER JOIN produkttag pt ON p.idProdukt = pt.idProdukt INNER JOIN tagovi t ON t.idTag = pt.idTag INNER JOIN produktboja pb ON p.idProdukt = pb.idProdukt INNER JOIN boje bo ON bo.idBoja = pb.idBoja INNER JOIN produktivelicine pv ON p.idProdukt = pv.idProdukt INNER JOIN velicine v ON pv.idVelicina = v.idVelicina inner join review as r on r.idProdukt = p.idProdukt GROUP BY r.idReview";
+    $upit = "SELECT * FROM produkti AS p INNER JOIN kategorije AS k ON p.kategorija = k.idKategorija INNER JOIN brendovi AS b ON p.brend = b.idBrend INNER JOIN cena c ON p.cena = c.idCena INNER JOIN kolekcijaslika ks ON p.idProdukt = ks.idProdukt INNER JOIN slika s ON ks.idKolekcijaSlika = s.idKolekcijaSlika INNER JOIN produkttag pt ON p.idProdukt = pt.idProdukt INNER JOIN tagovi t ON t.idTag = pt.idTag INNER JOIN produktboja pb ON p.idProdukt = pb.idProdukt INNER JOIN boje bo ON bo.idBoja = pb.idBoja INNER JOIN produktivelicine pv ON p.idProdukt = pv.idProdukt INNER JOIN velicine v ON pv.idVelicina = v.idVelicina inner join review as r on r.idProdukt = p.idProdukt GROUP BY r.idProdukt LIMIT 4";
 
-    $prepare = $conn->prepare($upit);
-    $prepare->bindParam(':group', $group);
-    $prepare->execute();
-
-    $produkti = $prepare->fetchAll();
+    $produkti = $conn->query($upit)->fetchall();
 
     $niz = [];
 
@@ -412,6 +392,7 @@ function newArrivals()
 
     return $result;
 }
+
 function cartInfo()
 {
     $sessionObj = $_SESSION['cart'];
@@ -428,15 +409,15 @@ function cartInfo()
         $sumProd += $obj->quan;
         $_SESSION['info'] = (object)array('sum' => $sum, 'quan' => $sumProd);
         echo '<tr>
-                            <td class="product__cart__item">
-                                <div class="product__cart__item__pic">
-                                    <img src="assets/img/product/' . $product->nazivSlike . '" alt="' . $product->altTag . '" style="width: 120px">
-                                </div>
-                                <div class="product__cart__item__text">
-                                    <h6>' . $product->imeProdukta . '</h6>
-                                    <h5>' . $product->nova . ' RSD</h5>
-          </div>
-        </td>
+                      <td class="product__cart__item">
+                            <div class="product__cart__item__pic">
+                                  <img src="assets/img/product/' . $product->nazivSlike . '" alt="' . $product->altTag . '" style="width: 120px">
+                            </div>
+                            <div class="product__cart__item__text">
+                                 <h6>' . $product->imeProdukta . '</h6>
+                                  <h5>' . $product->nova . ' RSD</h5>
+                            </div>
+                        </td>
             <td class="cart__price">' . $obj->quan . '</td>
             <td class="cart__price">' . $product->nazivKolekcije . '</td>
             <td class="cart__price">' . $product->velicina . '</td>
@@ -471,6 +452,7 @@ function fetchWishlistProducts($wishlistId)
 
     return $result;
 }
+
 function remove($table, $column, $id)
 {
     global $conn;
@@ -484,6 +466,7 @@ function remove($table, $column, $id)
     $result = $prepare->execute();
     return $result;
 }
+
 function createWishlist()
 {
     global $conn;
@@ -497,6 +480,7 @@ function createWishlist()
         return 0;
     }
 }
+
 function registration($fname, $lname, $email, $enc, $lastID)
 {
 
@@ -550,6 +534,7 @@ function addProduct($imeProdukta, $opis, $cena, $kategorija, $brend, $velicina, 
         return 'Failed to add product';
     }
 }
+
 function insertIntoTableBind($table, $columns, $data)
 {
     // [NULL, $bojaKolekcija, $id, $boja]
@@ -588,4 +573,84 @@ function messageSent($fullName, $email, $msg)
 
     $result = $prepare->execute();
     return $result;
+}
+
+function getOrders($email)
+{
+    global $conn;
+    $upit = 'SELECT DISTINCT `porudzbine_id`, `zemlja`, `datum`, `nacinPlacanja`, `isporuceno`, `cost`  FROM porudzbine as p INNER JOIN porudzbinaprodukt as pp ON pp.idPorudzbina = p.porudzbine_id WHERE p.email = :email';
+
+    $prepare = $conn->prepare($upit);
+    $prepare->bindParam(':email', $email);
+    $prepare->execute();
+
+    $result = $prepare->fetchAll();
+    return $result;
+}
+
+function orderProducts($id)
+{
+    global $conn;
+
+    $upit = 'SELECT `imeProdukta`, `opis`  FROM porudzbinaprodukt as pp INNER JOIN produkti as p ON pp.idProdukt=p.idProdukt WHERE pp.idPorudzbina= :id ';
+
+    $prepare = $conn->prepare($upit);
+    $prepare->bindParam(':id', $id);
+    $prepare->execute();
+
+    $result = $prepare->fetchAll();
+    return $result;
+}
+function updateProduct($id, $name, $desc, $price, $brand, $category, $tags ,$sizes, $colors){
+    global $conn;
+    try{
+        $conn->beginTransaction();
+
+        $static = "WHERE p.idProdukt = '$id'";
+
+        $conn->exec("UPDATE produkti as p SET p.imeProdukta = '$name'".$static);
+        $conn->exec("UPDATE produkti as p SET p.opis = '$desc'".$static);
+
+        $priceObj = executeQuery("SELECT idCena, nova FROM cena WHERE idCena = (SELECT cena FROM produkti WHERE idProdukt = $id)");
+        $priceId = $priceObj[0]->idCena;
+        $priceNew = $priceObj[0]->nova;
+
+        $conn->exec("UPDATE cena as c SET c.stara = '$priceNew' WHERE c.idCena = '$priceId'");
+        $conn->exec("UPDATE cena as c SET c.nova = '$price' WHERE c.idCena = '$priceId'");
+        $conn->exec("UPDATE produkti as p SET p.brend = '$brand'".$static);
+        $conn->exec("UPDATE produkti as p SET p.kategorija = '$category'".$static);
+
+        $tagProductIds = executeQuery("SELECT idProduktTag FROM produkttag WHERE idProdukt = '$id'");
+        foreach ($tagProductIds as $tp){
+            $conn->exec("DELETE FROM produkttag WHERE idProduktTag = '$tp->idProduktTag'");
+        }
+
+        $sizeProductIds = executeQuery("SELECT idProduktVelicina FROM produktivelicine WHERE idProdukt = '$id'");
+        foreach ($sizeProductIds as $sp){
+            $conn->exec("DELETE FROM produktivelicine WHERE idProduktVelicina = '$sp->idProduktVelicina'");
+        }
+
+        $colorProductIds = executeQuery("SELECT idProduktBoja FROM produktboja WHERE idProdukt = '$id'");
+        foreach ($colorProductIds as $cp){
+            $conn->exec("DELETE FROM produktboja WHERE idProduktBoja = '$cp->idProduktBoja'");
+        }
+
+        foreach ($sizes as $size){
+            $conn->exec("INSERT INTO `produktivelicine` (`idProduktVelicina`, `idProdukt`, `idVelicina`) VALUES (NULL, '$id', '$size')");
+        }
+
+        foreach ($tags as $tag){
+            $conn->exec("INSERT INTO `produkttag` (`idProduktTag`, `idProdukt`, `idTag`) VALUES (NULL, '$id', '$tag')");
+        }
+        foreach ($colors as $color){
+            $conn->exec("INSERT INTO `produktboja` (`idProduktBoja`, `idProdukt`, `idBoja`) VALUES (NULL, '$id', '$color')");
+        }
+
+        $conn->commit();
+    }
+    catch (Exception $e){
+        $conn->rollBack();
+        echo $e->getMessage();
+    }
+
 }

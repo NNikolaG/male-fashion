@@ -1,7 +1,7 @@
 <?php
 
 // Osnovna podesavanja
-define("ABSOLUTE_PATH", $_SERVER["DOCUMENT_ROOT"] . "/malefashion-master");
+define("ABSOLUTE_PATH", $_SERVER["DOCUMENT_ROOT"]. '/male-fashion');
 
 // Ostala podesavanja
 define("ENV_FAJL", ABSOLUTE_PATH . "/config/.env");

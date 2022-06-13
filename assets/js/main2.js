@@ -79,7 +79,6 @@ $(document).ready(function () {
             let niz = [
                 regEx(regExEmail, emailLogin, errMsgEmail, '#emailHelp'),
                 regEx(regExPass, passwordLogin, errMsgPass, '#passHelp'),
-                confirm(passwordComf.value, passwordLogin.value, errMsgPassComf, '#passHelpComf')
             ];
 
             var greska = 0;
@@ -93,11 +92,10 @@ $(document).ready(function () {
                 let sendData = {
                     emailLoginX: emailLogin.value,
                     passwordX: passwordLogin.value,
-                    passwordComfX: passwordComf.value
                 }
                 ajaxCallBack('models/loging.php', function (result) {
                     if (result.msg == 'Successful Logging') {
-                        window.location.href = "http://male-fashion.epizy.com//index.php?page=home";
+                        window.location.href = "./index.php?page=home";
                     } else {
                         $('#msg').removeClass('correct').addClass('false').html(result.msg);
                     }
@@ -145,8 +143,8 @@ $(document).ready(function () {
                         document.querySelector('.denied').style.display = 'block';
                         document.querySelector('.denied').style.marginTop = '20px';
                     } else {
-                        localStorage.setItem('responseMsg', result.msg + " --- Redirecting to Log In page in 5s");
-                        window.location.href = "http://male-fashion.epizy.com/index.php?page=response";
+                        localStorage.setItem('responseMsg', result.msg + " --- Redirecting to Log In page in");
+                        window.location.href = "./index.php?page=response";
                     }
                 }, sendData);
             }
@@ -226,6 +224,9 @@ $(document).ready(function () {
             var paymentX = '';
 
             var methods = document.getElementsByName('paymentMethod');
+
+            var cost = document.querySelector('#cost')
+
             methods.forEach(element => {
                 if (element.checked) {
                     paymentX = element.id;
@@ -243,12 +244,13 @@ $(document).ready(function () {
                     cardOwner: inpcardOwner.value,
                     cardNum: inpCardId.value,
                     country: selectedCountry.value,
-                    payment: paymentX
+                    payment: paymentX,
+                    cost : cost.innerHTML
                 }
                 ajaxCallBack('models/order.php', function (result) {
                     if (result.msg == 'Successful Ordering') {
-                        localStorage.setItem('responseMsg', result.msg + " --- Redirecting to Home page in 5s");
-                        window.location.href = "http://male-fashion.epizy.com/index.php?page=response";
+                        localStorage.setItem('responseMsg', result.msg + " --- Redirecting to Home page in");
+                        window.location.href = "./index.php?page=response";
                     }
                 }, sendData);
             }
@@ -335,7 +337,7 @@ $(document).ready(function () {
                 ajaxCallBack('models/addtocart.php', function (result) {
                     console.log(result);
                     if (result.msg == 'Added') {
-                        document.querySelector('#added').innerHTML = 'Product Successfuly Added to Cart';
+                        document.querySelector('#added').innerHTML = 'Product Successfully Added to Cart';
                         $('#added').removeClass('false').addClass('correct');
 
                     }
@@ -366,7 +368,7 @@ $(document).ready(function () {
 
     try {
         let page = 1;
-        let productPerPage = 9;
+        let productPerPage = 12;
         $('#search').on('input', function () {
             getProducts();
         })
@@ -467,10 +469,10 @@ $(document).ready(function () {
             $('#produkti').html(html);
 
             //Pagination
-            let numberOfPhones = data.num;
+            let numOfProducts = data.num;
             let paginationHtml = '';
-            if (numberOfPhones > 0) {
-                for (let i = 0; i < numberOfPhones / productPerPage; i++) {
+            if (numOfProducts > 0) {
+                for (let i = 0; i < numOfProducts / productPerPage; i++) {
                     paginationHtml += `<a href='#' data-page='${i + 1}' class="btnPage">${i + 1}</a>`;
                 }
             }
@@ -610,7 +612,8 @@ $(document).ready(function () {
     try {
         var edit = document.querySelector("#edit");
         edit.addEventListener('click', function () {
-            //Prikupljanje podataka
+
+
 
         })
     }
@@ -672,15 +675,15 @@ $(document).ready(function () {
 
                 ajaxCallBack('models/messages.php', function (result) {
                     if (result.msg == 'Message Sent') {
-                        localStorage.setItem('responseMsg', result.msg + " --- Redirecting to Home page in 5s");
-                        window.location.href = "http://male-fashion.epizy.com//index.php?page=response";
+                        localStorage.setItem('responseMsg', result.msg + " --- Redirecting to Home page in");
+                        window.location.href = "./index.php?page=response";
                     }
                 }, sendData);
             }
         })
     }
     catch (ex) { }
-    // GRESKA PRI SLANJU SLIKA I PODATAKA PREKO AJAXA
+    // GRESKA PRI SLANJU SLIKA PREKO AJAXA
     // //Dodavanje produkta provera i slanje
     // try {
     //     let upload = document.querySelector('.uploadBtn');
